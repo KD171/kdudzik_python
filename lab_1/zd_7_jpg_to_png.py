@@ -1,9 +1,12 @@
-from PIL import Image
+#! /usr/bin/env python3
+
 import os
 
+from PIL import Image
 
-def jpg_to_png(directory):
-    for jpg in directory:
+
+def jpg_to_png(files):
+    for jpg in files:
         try:
             image = Image.open(jpg)
             jpg = jpg.replace('.jpg', '.png')
@@ -13,8 +16,6 @@ def jpg_to_png(directory):
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-directory = [dir_path + '/pic' + str(f) + '.jpg' for f in range(1, 5)]
+all_files = os.listdir(dir_path)
+directory = [dir_path + '/' + file for file in all_files if '.jpg' in file]
 jpg_to_png(directory)
-
-
-
