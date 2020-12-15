@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import os
 import json
 
@@ -5,6 +6,7 @@ import json
 class JsonEditor:
 
     def __init__(self):
+        self.clear()
         self.file_name = "db.json"
         self.data = None
         self.startup()
@@ -38,15 +40,16 @@ class JsonEditor:
         self.updateFile()
 
     def delElementFromJson(self):
-        movie = input("Type movie title to delete from db")
-        temp = self.data
+        movie = input("Type movie title to delete from db: ")
+        movieInDB = len(self.data['movies'])
         for x in self.data["movies"]:
             if x["title"] == movie:
                 self.data["movies"].remove(x)
-        if temp == self.data:
-            print("Title can not find in db")
+                self.updateFile()
+        if len(self.data['movies']) == movieInDB:
+            print("Can't find movie \"%s\" in JSON" % movie)
         else:
-            self.updateFile()
+            print("Movie \"%s\" is delete from JSON" % movie)
 
     def clear(self):
         if os.name == 'nt':
@@ -65,7 +68,7 @@ class JsonEditor:
             print("json file is broken, rerun script and try again")
 
     def chose(self):
-        chose = input("Delete data[insert d] or add data[insert a] \n")
+        chose = input("Add data [insert: a]\nDelete data [insert: d]\nExit [type: exit]\n")
         if chose == "a":
             self.clear()
             self.addElementToJson()

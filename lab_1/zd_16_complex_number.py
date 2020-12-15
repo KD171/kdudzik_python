@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import cmath
 
 
@@ -42,7 +43,7 @@ class ComplexNumber:
         return self.real != other.real or self.imaginary != other.imaginary
 
     def __repr__(self):
-        return "ComplexNumber" + str(self)
+        return str(self)
 
     def __sub__(self, other):
         other = self.check_other(other)
@@ -73,11 +74,19 @@ class ComplexNumber:
         return other.__truediv__(self)
 
     def _error(self, element):
-        print(f"Operation {element} do not have a meaning fon Complex numbers")
+        print(f"Operation {element} do not have a meaning for Complex numbers")
 
     def check_other(self, other):
-        if isinstance(other, (int, float)):
-            other = ComplexNumber(other, 0)
+        if isinstance(other, (int, float, str, complex)):
+            if isinstance(other, str):
+                try:
+                    other = float(other)
+                except Exception as e:
+                    print(e)
+            elif isinstance(other, complex):
+                other = ComplexNumber(other.real, other.imag)
+            else:
+                other = ComplexNumber(other, 0)
         elif not isinstance(other, ComplexNumber):
             raise TypeError(f'Incorrect format: {type(other)}')
         return other
@@ -95,28 +104,30 @@ class ComplexNumber:
         self._error('<=')
 
 
-
-n = ComplexNumber(1, 4)
-y = ComplexNumber(0, 0)
-print(y)
-y = n ** 2
-m = ComplexNumber(4, 7)
-print(m + 2)
-print('/////////////')
-print(m/n)
-print(n ** 0.5)
-n = m
-print(n)
-var = n > m
-print(n + 2)
-m + 5
-print(4 - m)
-print(4*m)
-print(m*n)
-print(m/n)
-print(4/m)
-print(m/4)
-t = ComplexNumber(2, 0)
-print(t == 2)
-print(2 == t)
-# print(n++)
+if __name__ == "__main__":
+    n = ComplexNumber(1, 4)
+    y = ComplexNumber(0, 0)
+    print(y)
+    y = n ** 2
+    m = ComplexNumber(4, 7)
+    print(m + 2)
+    print('/////////////')
+    print(m/n)
+    print(n ** 0.5)
+    n = m
+    print(n)
+    var = n < m
+    print(n + 2)
+    m + 5
+    print(4 - m)
+    print(4*m)
+    print(2+m*n)
+    print(m/n)
+    print(4/m)
+    print(m/4)
+    t = ComplexNumber(2, 0)
+    print(t == 2)
+    print(2 == t)
+    print('/////////////')
+    print(m*n)
+    print((2+m)*n)
